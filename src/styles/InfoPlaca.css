@@ -1,0 +1,9 @@
+dl dt {
+  float: left;
+  width: 200px;
+  text-align: right;
+}
+
+dt dd {
+  margin-left: 215px;
+}
