@@ -1,24 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import PlacaAdd from './views/PlacaAdd';
+import InfoPlaca from './views/InfoPlaca';
+import ButtonAppBar from './components/NavBar';
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <ButtonAppBar></ButtonAppBar>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route exact path="/" element={<PlacaAdd/>} />
+          <Route exact path="/info-placa/:placa" element={<InfoPlaca/>} />
+        </Routes>
+      </div>
+    </Router>
+    </>
   );
 }
 
