@@ -1,0 +1,35 @@
+
+header{
+display: flex;
+justify-content: space-between;
+background-color: #FF5800;
+}
+
+
+
+.placa-add{
+
+text-align: center;
+align-items: center;
+justify-content: center;
+justify-content: center;
+margin-top: 90px;
+padding-left: 25px;
+} 
+
+.placa-add-form-label{
+    margin-top: 150px;
+    padding-right: 20px;
+    padding-left: 25px;
+
+}
+
+.placa-add-form-btn{
+    padding-left: 120px;
+    padding-right: 20px;
+     margin-top: 150px;
+    padding-left: 25px;
+    background-color: #FF5800;
+    box-shadow: white;
+   
+}
