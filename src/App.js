@@ -17,7 +17,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route exact path="/" element={<PlacaAdd/>} />
-          <Route exact path="/info-placa/:placa" element={<InfoPlaca/>} />
+          <Route exact path="/info-placa/" element={<InfoPlaca/>} />
         </Routes>
       </div>
     </Router>
