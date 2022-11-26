@@ -9,7 +9,8 @@ import { useState } from 'react';
 import '../styles/InfoPlaca.css'
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import Loading from '../components/Loading'
+import NotFound from '../components/NotFound'
 function InfoPlaca(props) {
   const navigate = useNavigate()
 
@@ -18,7 +19,7 @@ function InfoPlaca(props) {
   const [datosPlaca, setDatosPlaca] = useState({})
   const [fechaEntrada, setFechaEntrada] = useState('')
   const [fechaSalida, setFechaSalida] = useState('No ha salido')
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const handleClickBack = () => {
     navigate('/')
 }
@@ -30,7 +31,6 @@ function InfoPlaca(props) {
       setExistePlaca(true)
     }
     catch(error){
-      setExistePlaca(false)
 
     }
     finally{
@@ -59,7 +59,7 @@ function InfoPlaca(props) {
     actualizarFecha()
   }, [datosPlaca]);
   return loading ? 
-    <h1>Esta Cargando men</h1>:
+    <Loading/>:
     existePlaca ?
     <div className='infoPlaca'>
       <h1>Placa Vehículo {datosPlaca.Placa}</h1>
@@ -88,11 +88,8 @@ function InfoPlaca(props) {
       </Tooltip>
     </div> :
 
-
-    <div className='noExiste'>
-      <h1>El vehiculo ingresado no se encuentra en el parqueadero</h1>
-
-    </div> 
+<NotFound></NotFound>
+   
 
 }
 
