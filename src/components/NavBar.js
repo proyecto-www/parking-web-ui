@@ -6,18 +6,24 @@ import Button from '@mui/material/Button';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 export default function ButtonAppBar() {
+
   const darkTheme = createTheme({
     palette: {
       mode: 'dark'
     },
   });
+
+  const goHome = () => {
+    window.location.href = '/';
+
+  }
   return (
     <ThemeProvider theme={darkTheme}>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
             {/* HACER: mostrar logo de la aplicacion */}
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography onClick={goHome} variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Parking
             </Typography>
             <Button color="inherit">Login</Button>

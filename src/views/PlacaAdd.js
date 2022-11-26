@@ -1,19 +1,21 @@
 import '../styles/PlacaAdd.css'
-import ButtonDefault from '../components/ButtonDefault';
 import { Search } from "@mui/icons-material";
 import { IconButton } from '@mui/material';
-import axios from 'axios'
-import { useState } from 'react';
+import { useState, } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function PlacaAdd() {
-
     const [placa, setPlaca] = useState('')
-
+    const navigate = useNavigate()
     const handleChange = event => {
-        setPlaca(event.target.value);
+        setPlaca(event.target.value.toUpperCase());
         sessionStorage.setItem("placa", event.target.value);
-        console.log('value is:', event.target.value);
+        console.log('value is:', placa);
     };
+
+    const handleClick = () => {
+        navigate('info-placa')
+    }
     return (
 /*  <header>
             <div className='logo'>
@@ -35,7 +37,7 @@ function PlacaAdd() {
                     <input className="placa-add-form-input" type='text' placeholder="" size='10' name='placa' onChange={handleChange}
                         value={placa} />
 
-                    <IconButton aria-label="buscar">
+                    <IconButton aria-label="buscar" onClick={handleClick}>
                         <Search />
 
                     </IconButton>
