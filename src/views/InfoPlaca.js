@@ -1,28 +1,48 @@
 
-import { useParams } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material/styles';
-
+import axios from 'axios'
+import { useState } from 'react';
 import '../styles/InfoPlaca.css'
-
+import { useEffect } from 'react';
 function InfoPlaca(props) {
-  const params = useParams();
-  // HACER: Traer datos del backend usando la placa
+  let placa = sessionStorage.getItem('placa')
+  const [datosPlaca, setDatosPlaca] = useState({})
+  const [fechaEntrada, setFechaEntrada] = useState('')
+  const [fechaSalida, setFechaSalida] = useState('No ha salido')
+
+  const consultarInfo = async () => {
+    let infoPlaca = await axios.get('https://3glc3tjahc.execute-api.us-east-1.amazonaws.com/vehiculos/' + placa)
+    setDatosPlaca(infoPlaca.data.body)
+
+  }
+  const actualizarFecha = ()=>{
+    let horaEntrada = new Date(parseInt(datosPlaca.FechaHoraEntrada)).toString()
+    let horaSalida = new Date(parseInt(datosPlaca.FechaHoraSalida)).toString()
+    setFechaEntrada(horaEntrada)
+    if (horaSalida !='Invalid Date'){
+      setFechaSalida(horaSalida)
+
+    }
+    console.log(horaSalida)
+  }
+
+
+  useEffect(() => {
+    consultarInfo()
+  }, []);  
+
+  useEffect(() => {
+    actualizarFecha()
+  }, [datosPlaca]); 
   return <div className='infoPlaca'>
-    <h1>Placa Vehículo {params.placa}</h1>
+    <h1>Placa Vehículo {datosPlaca.Placa}</h1>
     <dl>
-      <dt>Fecha entrada</dt>
-      <dd>fecha_entrada</dd>
-      <dt>Hora entrada</dt>
-      <dd>hora_entrada</dd>
+      <dt>{fechaEntrada}</dt>
+      <dt>{fechaSalida}</dt>
     </dl>
 
     <p>Hora entrada: hora_entrada</p>
