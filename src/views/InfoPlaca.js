@@ -14,7 +14,6 @@ import NotFound from '../components/NotFound'
 function InfoPlaca(props) {
   const navigate = useNavigate()
 
-  let placa = sessionStorage.getItem('placa')
   const [existePlaca, setExistePlaca] = useState(false)
   const [datosPlaca, setDatosPlaca] = useState({})
   const [fechaEntrada, setFechaEntrada] = useState('')
@@ -23,39 +22,43 @@ function InfoPlaca(props) {
   const handleClickBack = () => {
     navigate('/')
 }
-  const consultarInfo = async () => {
-    setLoading(true)
-    try {
-      let infoPlaca = await axios.get('https://3glc3tjahc.execute-api.us-east-1.amazonaws.com/vehiculos/' + placa)
-      setDatosPlaca(infoPlaca.data.body)
-      setExistePlaca(true)
-    }
-    catch(error){
-
-    }
-    finally{
-      setLoading(false)
-
-    }
-  }
-  const actualizarFecha = () => {
-    let horaEntrada = new Date(parseInt(datosPlaca.FechaHoraEntrada)).toString()
-    let horaSalida = new Date(parseInt(datosPlaca.FechaHoraSalida)).toString()
-    setFechaEntrada(horaEntrada)
-    if (horaSalida != 'Invalid Date') {
-      setFechaSalida(horaSalida)
-
-    }
-    console.log(horaSalida)
-  }
+  
+  
 
 
 
   useEffect(() => {
+    let placa = sessionStorage.getItem('placa')
+
+    const consultarInfo = async () => {
+      setLoading(true)
+      try {
+        let infoPlaca = await axios.get('https://3glc3tjahc.execute-api.us-east-1.amazonaws.com/vehiculos/' + placa)
+        setDatosPlaca(infoPlaca.data.body)
+        setExistePlaca(true)
+      }
+      catch(error){
+  
+      }
+      finally{
+        setLoading(false)
+  
+      }
+    }
     consultarInfo()
   }, []);
 
   useEffect(() => {
+    const actualizarFecha = () => {
+      let horaEntrada = new Date(parseInt(datosPlaca.FechaHoraEntrada)).toString()
+      let horaSalida = new Date(parseInt(datosPlaca.FechaHoraSalida)).toString()
+      setFechaEntrada(horaEntrada)
+      if (horaSalida !== 'Invalid Date') {
+        setFechaSalida(horaSalida)
+  
+      }
+      console.log(horaSalida)
+    }
     actualizarFecha()
   }, [datosPlaca]);
   return loading ? 

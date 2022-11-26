@@ -1,6 +1,5 @@
-import { Button, CircularProgress } from "@mui/material";
-import { Search } from "@mui/icons-material";
-export default function Loading({ text, color }) {
+import {  CircularProgress } from "@mui/material";
+export default function Loading( ) {
     return (
 
         <div style={{

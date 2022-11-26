@@ -1,8 +1,6 @@
 import '../styles/PlacaAdd.css'
-import ButtonDefault from '../components/ButtonDefault';
 import { Search } from "@mui/icons-material";
 import { IconButton } from '@mui/material';
-import axios from 'axios'
 import { useState, } from 'react';
 import { useNavigate } from 'react-router-dom';
 
