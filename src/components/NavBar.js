@@ -13,7 +13,7 @@ export default function ButtonAppBar() {
     },
   });
 
-  const goHome =()=>{
+  const goHome = () => {
     window.location.href = '/';
 
   }

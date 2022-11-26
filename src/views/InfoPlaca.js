@@ -21,12 +21,7 @@ function InfoPlaca(props) {
   const [loading, setLoading] = useState(true)
   const handleClickBack = () => {
     navigate('/')
-}
-  
-  
-
-
-
+  }
   useEffect(() => {
     let placa = sessionStorage.getItem('placa')
 
@@ -37,12 +32,12 @@ function InfoPlaca(props) {
         setDatosPlaca(infoPlaca.data.body)
         setExistePlaca(true)
       }
-      catch(error){
-  
+      catch (error) {
+
       }
-      finally{
+      finally {
         setLoading(false)
-  
+
       }
     }
     consultarInfo()
@@ -55,44 +50,44 @@ function InfoPlaca(props) {
       setFechaEntrada(horaEntrada)
       if (horaSalida !== 'Invalid Date') {
         setFechaSalida(horaSalida)
-  
+
       }
       console.log(horaSalida)
     }
     actualizarFecha()
   }, [datosPlaca]);
-  return loading ? 
-    <Loading/>:
+  return loading ?
+    <Loading /> :
     existePlaca ?
-    <div className='infoPlaca'>
-      <h1>Placa Vehículo {datosPlaca.Placa}</h1>
-      <dl>
-        <dt>{fechaEntrada}</dt>
-        <dt>{fechaSalida}</dt>
-      </dl>
+      <div className='infoPlaca'>
+        <h1>Placa Vehículo {datosPlaca.Placa}</h1>
+        <dl>
+          <dt>{fechaEntrada}</dt>
+          <dt>{fechaSalida}</dt>
+        </dl>
 
-      <p>Hora entrada: hora_entrada</p>
-      <p>Valor a pagar hasta el momento: valor_pagar</p>
-      <p>Tiempo restante para salir: tiempo_restante</p>
-      <Tooltip title="Atrás">
-        <IconButton onClick={handleClickBack} aria-label="Atrás" size="large">
-          <ArrowBackIcon fontSize="inherit" />
-        </IconButton>
-      </Tooltip>
-      <Tooltip title="Pagar">
-        <IconButton aria-label="Pagar" size="large">
-          <AttachMoneyIcon fontSize="inherit" />
-        </IconButton>
-      </Tooltip>
-      <Tooltip title="Recargar">
-        <IconButton aria-label="Recargar" size="large">
-          <AutorenewIcon fontSize="inherit" />
-        </IconButton>
-      </Tooltip>
-    </div> :
+        <p>Hora entrada: hora_entrada</p>
+        <p>Valor a pagar hasta el momento: valor_pagar</p>
+        <p>Tiempo restante para salir: tiempo_restante</p>
+        <Tooltip title="Atrás">
+          <IconButton onClick={handleClickBack} aria-label="Atrás" size="large">
+            <ArrowBackIcon fontSize="inherit" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Pagar">
+          <IconButton aria-label="Pagar" size="large">
+            <AttachMoneyIcon fontSize="inherit" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Recargar">
+          <IconButton aria-label="Recargar" size="large">
+            <AutorenewIcon fontSize="inherit" />
+          </IconButton>
+        </Tooltip>
+      </div> :
 
-<NotFound></NotFound>
-   
+      <NotFound></NotFound>
+
 
 }
 
