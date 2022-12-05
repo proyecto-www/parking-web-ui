@@ -5,23 +5,33 @@ justify-content: space-between;
 background-color: #FF5800;
 }
 
+/* .bgimg {
+    background-image: url('./../resources/parking_lot_background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+} */
 
+.vertical-center {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
 
 .placa-add{
-
-text-align: center;
-align-items: center;
-justify-content: center;
-justify-content: center;
-margin-top: 90px;
-padding-left: 25px;
-} 
-
-.placa-add-form-label{
-    margin-top: 150px;
-    padding-right: 20px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
     padding-left: 25px;
+    width: 70%;
+    border-radius: 30px;
+    background:rgba(255, 255, 255, 0.8);
+}
 
+.placa-input {
+    width: 50%;
 }
 
 .placa-add-form-btn{
