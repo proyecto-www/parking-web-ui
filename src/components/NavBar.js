@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import logo from './../resources/logo.png';
 
 export default function ButtonAppBar() {
 
@@ -23,6 +24,9 @@ export default function ButtonAppBar() {
         <AppBar position="static">
           <Toolbar>
             {/* HACER: mostrar logo de la aplicacion */}
+            <Box >
+              <img src={logo} heigth={56} width={56} alt="Este es el logo de el parqueadero"/>
+          </Box>
             <Typography onClick={goHome} variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Parking
             </Typography>
