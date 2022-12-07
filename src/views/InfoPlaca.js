@@ -45,14 +45,13 @@ function InfoPlaca(props) {
 
   useEffect(() => {
     const actualizarFecha = () => {
-      let horaEntrada = new Date(datosPlaca.fechaHoraEntrada).toString()
-      let horaSalida = new Date(datosPlaca.fechaHoraSalida).toString()
+      let horaEntrada = new Date(parseInt(datosPlaca.fechahoraentrada)).toString()
+      let horaSalida = new Date(parseInt(datosPlaca.fechahorasalida)).toString()
       setFechaEntrada(horaEntrada)
       if (horaSalida !== 'Invalid Date') {
         setFechaSalida(horaSalida)
 
       }
-      console.log(horaSalida)
     }
     actualizarFecha()
   }, [datosPlaca]);
