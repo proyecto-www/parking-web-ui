@@ -6,7 +6,7 @@ export default function NotFound() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100vh',
+            height: '50vh',
         }}
             className='noExiste'>
             <h1>El vehiculo ingresado no se encuentra en el parqueadero</h1>
