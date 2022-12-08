@@ -30,7 +30,7 @@ function PlacaAdd() {
     <div className="bgimg">
 
 
-      <div className="white-background-card vertical-center">
+      <div className="white-background-card vertical-center text-center">
         <img className="logo-parking" src={logo} alt="logo completo parking"/>
         <form onSubmit={handleSummit}>
           <Box sx={{ paddingBottom: 10 }}

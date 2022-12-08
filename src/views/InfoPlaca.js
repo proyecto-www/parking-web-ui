@@ -1,5 +1,6 @@
 
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
@@ -46,8 +47,9 @@ function InfoPlaca(props) {
 
   useEffect(() => {
     const actualizarFecha = () => {
-      let horaEntrada = new Date(parseInt(datosPlaca.fechahoraentrada)).toString()
-      let horaSalida = new Date(parseInt(datosPlaca.fechahorasalida)).toString()
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+      let horaEntrada = new Date(parseInt(datosPlaca.fechahoraentrada)).toLocaleString("es-CO", options)
+      let horaSalida = new Date(parseInt(datosPlaca.fechahorasalida)).toLocaleDateString("es-CO", options)
       setFechaEntrada(horaEntrada)
       if (horaSalida !== 'Invalid Date') {
         setFechaSalida(horaSalida)
@@ -61,32 +63,44 @@ function InfoPlaca(props) {
       {loading ?
         <Loading /> :
         existePlaca ?
-          <div className='infoPlaca'>
-            <h1>Placa Vehículo {datosPlaca.placa}</h1>
-            <dl>
-              <dt>{fechaEntrada}</dt>
-              <dt>{fechaSalida}</dt>
-            </dl>
+          <>
+            <Typography variant="h4" sx={{ marginTop: '25px' }} className='text-center'>Vehículo: {datosPlaca.placa}</Typography>
+            <div className='infoPlaca'>
+              <dl>
+                <dt>Fecha entrada</dt>
+                <dd>{fechaEntrada}</dd>
 
-            <p>Hora entrada: hora_entrada</p>
-            <p>Valor a pagar hasta el momento: valor_pagar</p>
-            <p>Tiempo restante para salir: tiempo_restante</p>
-            <Tooltip title="Atrás">
-              <IconButton onClick={handleClickBack} aria-label="Atrás" size="large">
-                <ArrowBackIcon fontSize="inherit" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Pagar">
-              <IconButton aria-label="Pagar" size="large">
-                <AttachMoneyIcon fontSize="inherit" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Recargar">
-              <IconButton aria-label="Recargar" size="large">
-                <AutorenewIcon fontSize="inherit" />
-              </IconButton>
-            </Tooltip>
-          </div> :
+                <dt>Fecha Salida</dt>
+                <dd>{fechaSalida}</dd>
+
+                <dt>Tipo vehículo</dt>
+                <dd>{datosPlaca.tipodevehiculo}</dd>
+
+                <dt>Valor a pagar</dt>
+                <dd>$ {datosPlaca.valorPagar || 0}</dd>
+
+                <dt>Tiempo restante</dt>
+                <dd>{datosPlaca.tiempoRestante ? datosPlaca.tiempoRestante : 'No ha pagado'}</dd>
+              </dl>
+            </div>
+            <div className='text-center'>
+              <Tooltip title="Atrás">
+                <IconButton onClick={handleClickBack} aria-label="Atrás" size="large">
+                  <ArrowBackIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Pagar">
+                <IconButton aria-label="Pagar" size="large">
+                  <AttachMoneyIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Recargar">
+                <IconButton aria-label="Recargar" size="large">
+                  <AutorenewIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+            </div>
+          </> :
           <NotFound></NotFound>
       }
     </div>
