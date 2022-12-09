@@ -13,6 +13,9 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading'
 import NotFound from '../components/NotFound'
+import TimeConverter from '../util/TimeConverter'
+import PriceFormater from '../util/PriceFormater'
+ 
 function InfoPlaca(props) {
   const navigate = useNavigate()
 
@@ -21,27 +24,37 @@ function InfoPlaca(props) {
   const [fechaEntrada, setFechaEntrada] = useState('')
   const [fechaSalida, setFechaSalida] = useState('No ha salido')
   const [loading, setLoading] = useState(true)
+
+  const consultarInfo = async () => {
+    let placa = sessionStorage.getItem('placa')
+    console.log('soy')
+    setLoading(true)
+    try {
+      let infoPlaca = await axios.get('https://3glc3tjahc.execute-api.us-east-1.amazonaws.com/vehiculos/' + placa)
+      let valorApagar = await axios.get('https://8z764jo9x6.execute-api.us-east-1.amazonaws.com/precio/' + placa)
+      const respuesta = infoPlaca.data.body
+      respuesta.valorPagar = PriceFormater(valorApagar.data.body.valorAPagar)
+      setDatosPlaca(respuesta)
+      setExistePlaca(true)
+    }
+    catch (error) {
+
+    }
+    finally {
+      setLoading(false)
+
+    }
+  }
+
+  const handleClickReload = () => {
+    consultarInfo()
+  }
+
   const handleClickBack = () => {
     navigate('/')
   }
+
   useEffect(() => {
-    let placa = sessionStorage.getItem('placa')
-
-    const consultarInfo = async () => {
-      setLoading(true)
-      try {
-        let infoPlaca = await axios.get('https://3glc3tjahc.execute-api.us-east-1.amazonaws.com/vehiculos/' + placa)
-        setDatosPlaca(infoPlaca.data.body)
-        setExistePlaca(true)
-      }
-      catch (error) {
-
-      }
-      finally {
-        setLoading(false)
-
-      }
-    }
     consultarInfo()
   }, []);
 
@@ -80,7 +93,7 @@ function InfoPlaca(props) {
                 <dd>$ {datosPlaca.valorPagar || 0}</dd>
 
                 <dt>Tiempo restante</dt>
-                <dd>{datosPlaca.tiempoRestante ? datosPlaca.tiempoRestante : 'No ha pagado'}</dd>
+                <dd>{datosPlaca.tiempoRestante === -1 ? 'No ha pagado' : datosPlaca.tiempoRestante < -1 ? 'Pago vencido, comunicarse con el admin' : TimeConverter(datosPlaca.tiempoRestante)}</dd>
               </dl>
             </div>
             <div className='text-center'>
@@ -95,7 +108,7 @@ function InfoPlaca(props) {
                 </IconButton>
               </Tooltip>
               <Tooltip title="Recargar">
-                <IconButton aria-label="Recargar" size="large">
+                <IconButton onClick={handleClickReload} aria-label="Recargar" size="large">
                   <AutorenewIcon fontSize="inherit" />
                 </IconButton>
               </Tooltip>

@@ -7,7 +7,6 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import { useState, } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import logo from './../resources/logo-completo.png';
 
