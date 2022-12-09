@@ -1,16 +1,21 @@
 
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import Tooltip from '@mui/material/Tooltip';
 import axios from 'axios'
 import { useState } from 'react';
-import '../styles/InfoPlaca.css'
+import '../styles/PlacaAdd.css'
+import '../styles/InfoPlaca.css';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading'
 import NotFound from '../components/NotFound'
+import TimeConverter from '../util/TimeConverter'
+import PriceFormater from '../util/PriceFormater'
+ 
 function InfoPlaca(props) {
   const navigate = useNavigate()
 
@@ -19,34 +24,45 @@ function InfoPlaca(props) {
   const [fechaEntrada, setFechaEntrada] = useState('')
   const [fechaSalida, setFechaSalida] = useState('No ha salido')
   const [loading, setLoading] = useState(true)
+
+  const consultarInfo = async () => {
+    let placa = sessionStorage.getItem('placa')
+    console.log('soy')
+    setLoading(true)
+    try {
+      let infoPlaca = await axios.get('https://3glc3tjahc.execute-api.us-east-1.amazonaws.com/vehiculos/' + placa)
+      let valorApagar = await axios.get('https://8z764jo9x6.execute-api.us-east-1.amazonaws.com/precio/' + placa)
+      const respuesta = infoPlaca.data.body
+      respuesta.valorPagar = PriceFormater(valorApagar.data.body.valorAPagar)
+      setDatosPlaca(respuesta)
+      setExistePlaca(true)
+    }
+    catch (error) {
+
+    }
+    finally {
+      setLoading(false)
+
+    }
+  }
+
+  const handleClickReload = () => {
+    consultarInfo()
+  }
+
   const handleClickBack = () => {
     navigate('/')
   }
+
   useEffect(() => {
-    let placa = sessionStorage.getItem('placa')
-
-    const consultarInfo = async () => {
-      setLoading(true)
-      try {
-        let infoPlaca = await axios.get('https://3glc3tjahc.execute-api.us-east-1.amazonaws.com/vehiculos/' + placa)
-        setDatosPlaca(infoPlaca.data.body)
-        setExistePlaca(true)
-      }
-      catch (error) {
-
-      }
-      finally {
-        setLoading(false)
-
-      }
-    }
     consultarInfo()
   }, []);
 
   useEffect(() => {
     const actualizarFecha = () => {
-      let horaEntrada = new Date(parseInt(datosPlaca.fechahoraentrada)).toString()
-      let horaSalida = new Date(parseInt(datosPlaca.fechahorasalida)).toString()
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+      let horaEntrada = new Date(parseInt(datosPlaca.fechahoraentrada)).toLocaleString("es-CO", options)
+      let horaSalida = new Date(parseInt(datosPlaca.fechahorasalida)).toLocaleDateString("es-CO", options)
       setFechaEntrada(horaEntrada)
       if (horaSalida !== 'Invalid Date') {
         setFechaSalida(horaSalida)
@@ -55,38 +71,53 @@ function InfoPlaca(props) {
     }
     actualizarFecha()
   }, [datosPlaca]);
-  return loading ?
-    <Loading /> :
-    existePlaca ?
-      <div className='infoPlaca'>
-        <h1>Placa Vehículo {datosPlaca.placa}</h1>
-        <dl>
-          <dt>{fechaEntrada}</dt>
-          <dt>{fechaSalida}</dt>
-        </dl>
+  return (
+    <div className='white-background-card vertical-center'>
+      {loading ?
+        <Loading /> :
+        existePlaca ?
+          <>
+            <Typography variant="h4" sx={{ marginTop: '25px' }} className='text-center'>Vehículo: {datosPlaca.placa}</Typography>
+            <div className='infoPlaca'>
+              <dl>
+                <dt>Fecha entrada</dt>
+                <dd>{fechaEntrada}</dd>
 
-        <p>Hora entrada: hora_entrada</p>
-        <p>Valor a pagar hasta el momento: valor_pagar</p>
-        <p>Tiempo restante para salir: tiempo_restante</p>
-        <Tooltip title="Atrás">
-          <IconButton onClick={handleClickBack} aria-label="Atrás" size="large">
-            <ArrowBackIcon fontSize="inherit" />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Pagar">
-          <IconButton aria-label="Pagar" size="large">
-            <AttachMoneyIcon fontSize="inherit" />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Recargar">
-          <IconButton aria-label="Recargar" size="large">
-            <AutorenewIcon fontSize="inherit" />
-          </IconButton>
-        </Tooltip>
-      </div> :
+                <dt>Fecha Salida</dt>
+                <dd>{fechaSalida}</dd>
 
-      <NotFound></NotFound>
+                <dt>Tipo vehículo</dt>
+                <dd>{datosPlaca.tipodevehiculo}</dd>
 
+                <dt>Valor a pagar</dt>
+                <dd>$ {datosPlaca.valorPagar || 0}</dd>
+
+                <dt>Tiempo restante</dt>
+                <dd>{datosPlaca.tiempoRestante === -1 ? 'No ha pagado' : datosPlaca.tiempoRestante < -1 ? 'Pago vencido, comunicarse con el admin' : TimeConverter(datosPlaca.tiempoRestante)}</dd>
+              </dl>
+            </div>
+            <div className='text-center'>
+              <Tooltip title="Atrás">
+                <IconButton onClick={handleClickBack} aria-label="Atrás" size="large">
+                  <ArrowBackIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Pagar">
+                <IconButton aria-label="Pagar" size="large">
+                  <AttachMoneyIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Recargar">
+                <IconButton onClick={handleClickReload} aria-label="Recargar" size="large">
+                  <AutorenewIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+            </div>
+          </> :
+          <NotFound></NotFound>
+      }
+    </div>
+  )
 
 }
 
