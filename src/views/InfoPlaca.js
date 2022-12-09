@@ -27,17 +27,22 @@ function InfoPlaca(props) {
 
   const consultarInfo = async () => {
     let placa = sessionStorage.getItem('placa')
-    console.log('soy')
     setLoading(true)
     try {
       let infoPlaca = await axios.get('https://3glc3tjahc.execute-api.us-east-1.amazonaws.com/vehiculos/' + placa)
       let valorApagar = await axios.get('https://8z764jo9x6.execute-api.us-east-1.amazonaws.com/precio/' + placa)
       const respuesta = infoPlaca.data.body
-      respuesta.valorPagar = PriceFormater(valorApagar.data.body.valorAPagar)
+      respuesta.valorPagar = PriceFormater(valorApagar.data.body.respuesta.valorAPagar)
+      if(respuesta.tiempoRestante===-1){
+        respuesta.urlPagar = valorApagar.data.body.respuesta.urlPago
+
+      }
+      console.log(respuesta)
       setDatosPlaca(respuesta)
       setExistePlaca(true)
     }
     catch (error) {
+      console.log(error)
 
     }
     finally {
@@ -53,6 +58,13 @@ function InfoPlaca(props) {
   const handleClickBack = () => {
     navigate('/')
   }
+  const handleClickPay = () => {
+    if(datosPlaca.urlPagar){
+      window.location.replace(datosPlaca.urlPagar)
+
+    }
+  }
+
 
   useEffect(() => {
     consultarInfo()
@@ -103,7 +115,7 @@ function InfoPlaca(props) {
                 </IconButton>
               </Tooltip>
               <Tooltip title="Pagar">
-                <IconButton aria-label="Pagar" size="large">
+                <IconButton onClick={handleClickPay} aria-label="Pagar" size="large">
                   <AttachMoneyIcon fontSize="inherit" />
                 </IconButton>
               </Tooltip>
