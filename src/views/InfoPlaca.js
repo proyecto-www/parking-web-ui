@@ -72,7 +72,7 @@ function InfoPlaca(props) {
 
   useEffect(() => {
     const actualizarFecha = () => {
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
       let horaEntrada = new Date(parseInt(datosPlaca.fechahoraentrada)).toLocaleString("es-CO", options)
       let horaSalida = new Date(parseInt(datosPlaca.fechahorasalida)).toLocaleDateString("es-CO", options)
       setFechaEntrada(horaEntrada)
@@ -104,7 +104,7 @@ function InfoPlaca(props) {
                 <dt>Valor a pagar</dt>
                 <dd>$ {datosPlaca.valorPagar || 0}</dd>
 
-                <dt>Tiempo restante</dt>
+                <dt>Tiempo restante para salir</dt>
                 <dd>{datosPlaca.tiempoRestante === -1 ? 'No ha pagado' : datosPlaca.tiempoRestante < -1 ? 'Pago vencido, comunicarse con el admin' : TimeConverter(datosPlaca.tiempoRestante)}</dd>
               </dl>
             </div>
