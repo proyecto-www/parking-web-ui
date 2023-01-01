@@ -12,15 +12,18 @@ const Account = (props) => {
             if (user) {
                 user.getSession((err, session) => {
                     if (err) {
-                        reject()
+                        sessionStorage.setItem("email",null)
+                        reject(err)
                     }
                     else {
+                        sessionStorage.setItem("email", session.idToken.payload.email)
                         resolve(session)
                     }
                 })
             }
             else {
-                reject()
+                sessionStorage.setItem("email",null)
+                reject('No ha iniciado sesion')
             }
         })
     }

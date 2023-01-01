@@ -12,13 +12,16 @@ import { VisibilityOff } from "@mui/icons-material";
 import UserPool from '../UserPool'
 import { AccountContext } from "../components/Account";
 import { CognitoUser, AuthenticaciontDetails, AuthenticationDetails } from "amazon-cognito-identity-js";
+import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { authenticate } = useContext(AccountContext)
+    const { authenticate, getSession } = useContext(AccountContext)
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const navigate = useNavigate()
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -27,6 +30,7 @@ const Login = () => {
         event.preventDefault();
         authenticate(email, password)
             .then((data) => {
+                navigate("/admin/")
                 console.log("Logged in", data)
             })
             .catch((err) => {
@@ -41,6 +45,18 @@ const Login = () => {
     const handleChangePasswordTextField = (event) => {
         setPassword(event.target.value)
     }
+
+    useEffect(()=>{
+        getSession()
+        .then((session)=>{
+            navigate('/')
+            console.log("Session", session)
+        })
+        .catch((err)=>{
+            console.error(err)
+        })
+        console.log('estoy ejecutandome',sessionStorage.getItem('email'))
+    },[])
 
     return (
         <div className="white-background-card vertical-center text-center">
