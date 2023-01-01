@@ -23,7 +23,6 @@ background-color: #FF5800;
 .white-background-card {
     align-items: center;
     justify-content: center;
-    padding-left: 25px;
     width: 70%;
     border-radius: 30px;
     background:rgba(255, 255, 255, 0.8);
@@ -47,24 +46,3 @@ background-color: #FF5800;
    
 }
 
-@media only screen and (max-width: 768px) {
-     .logo-parking {
-        width: 50%;
-        height: auto;
-    }
-}
-
-@media only screen and (min-width: 769px) and (max-width: 1024px){
-    .logo-parking {
-        width: 40%;
-        height: auto;
-    }
-}
-
-@media only screen and (min-width: 1025px){
-    .logo-parking {
-        width: 30%;
-        max-width: 350px;
-        height: auto;
-    }
-}
