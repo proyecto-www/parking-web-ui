@@ -1,4 +1,5 @@
 import '../styles/PlacaAdd.css'
+import '../styles/Logo.css'
 import { Search } from "@mui/icons-material";
 import { IconButton } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -34,12 +35,12 @@ function PlacaAdd() {
         <form onSubmit={handleSummit}>
           <Box sx={{ paddingBottom: 10 }}
             noValidate
-            autoComplete="off"
             type='button'
           >
           <FormControl sx={{ width: '50%' }}>
             <InputLabel htmlFor="placa-input">Buscar placa</InputLabel>
             <OutlinedInput fullWidth 
+              autoComplete="off"
               type='input'
               value={placa}
               onChange={handleChange}
