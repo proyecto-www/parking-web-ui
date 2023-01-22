@@ -5,9 +5,16 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import logo from './../resources/logo.png';
+import { useNavigate } from 'react-router-dom';
+import { useState,useEffect,useContext } from 'react';
+import { AccountContext } from "../components/Account";
 
 export default function ButtonAppBar() {
+  const { authenticate, getSession } = useContext(AccountContext)
 
+  const navigate = useNavigate()
+  const [isLogged, setIsLogged] = useState(false)
+  const [email, setEmail] = useState('')
   const darkTheme = createTheme({
     palette: {
       mode: 'dark'
@@ -15,9 +22,26 @@ export default function ButtonAppBar() {
   });
 
   const goHome = () => {
-    window.location.href = '/';
+    navigate('/')
 
   }
+
+  const goLogin = ()=>[
+    navigate('/login')
+  ]
+
+  useEffect(()=>{
+    console.log(email)
+    getSession()
+    .then((session)=>{
+      setIsLogged(true)
+      setEmail(sessionStorage.getItem('email'))
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+})
+
   return (
     <ThemeProvider theme={darkTheme}>
       <Box sx={{ flexGrow: 1 }}>
@@ -30,7 +54,7 @@ export default function ButtonAppBar() {
             <Typography onClick={goHome} variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Parking
             </Typography>
-            <Button color="inherit">Login</Button>
+            <Button onClick={goLogin} color="inherit">{isLogged? email:'Login'}</Button>
           </Toolbar>
         </AppBar>
       </Box>
