@@ -10,6 +10,8 @@ import {
   Route,
 } from "react-router-dom";
 import { Account } from './components/Account';
+import AdminDashboard from './views/AdminDashboard';
+import Income from './views/Income'
 
 function App() {
   return (
@@ -22,6 +24,10 @@ function App() {
             <Route exact path="/" element={<PlacaAdd />} />
             <Route exact path="/info-placa/" element={<InfoPlaca />} />
             <Route exact path='/login' element={<Login />} />
+            <Route exact path='/admin' element={<AdminDashboard />} />
+            <Route exact path='/income' element={<Income />} />
+
+
           </Routes>
         </div>
       </Account>

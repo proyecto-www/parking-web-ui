@@ -1,10 +1,12 @@
 import { createContext } from "react";
 import { CognitoUser, AuthenticaciontDetails, AuthenticationDetails } from "amazon-cognito-identity-js";
 import Pool from '../UserPool'
+import { useNavigate } from 'react-router-dom';
 
 const AccountContext = createContext()
 
 const Account = (props) => {
+    const navigate = useNavigate()
 
     const getSession = async () => {
         return new Promise((resolve, reject) => {
