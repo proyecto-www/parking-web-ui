@@ -26,9 +26,17 @@ export default function ButtonAppBar() {
 
   }
 
-  const goLogin = ()=>[
-    navigate('/login')
+  const goAdmin = ()=>[
+    navigate('/admin')
   ]
+  const goIncome = ()=>{
+    navigate('/income')
+
+  }
+  const goLogin = ()=>{
+    navigate('/login')
+
+  }
 
   useEffect(()=>{
     console.log(email)
@@ -54,6 +62,18 @@ export default function ButtonAppBar() {
             <Typography onClick={goHome} variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Parking
             </Typography>
+            {
+              isLogged?
+              <Box>
+              <Button onClick={goIncome} color="inherit">{'VER INGRESOS'}</Button>
+              <Button onClick={goAdmin} color="inherit">{isLogged? 'VER VEHICULOS':''}</Button>
+              </Box>
+              :''
+
+            }
+
+            
+
             <Button onClick={goLogin} color="inherit">{isLogged? email:'Login'}</Button>
           </Toolbar>
         </AppBar>
