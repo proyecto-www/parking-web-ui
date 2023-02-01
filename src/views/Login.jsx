@@ -110,8 +110,8 @@ const Login = () => {
                     />
 
                 </div>
-                <div>
-                    <Button type="submit">HOLA</Button>
+                <div className="login-button" >
+                    <Button  variant="contained" type="submit">Login</Button>
                 </div>
 
             </form>
