@@ -195,7 +195,7 @@ function Income() {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align}>
                                                                     {column.id === 2
-                                                                        ? dayjs(value).format('MM/DD/YYYY')
+                                                                        ? dayjs(value).format('MM/DD/YYYY, HH:mm:ss')
                                                                         : value}
                                                                 </TableCell>
                                                             );
