@@ -22,6 +22,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TimeConverter from '../util/TimeConverter'
 import { AccountContext } from '../components/Account';
+import '../styles/Income.css'
 
 const columns = [
 
@@ -124,6 +125,7 @@ function AdminDashboard() {
 
 
       <div className="white-background-card vertical-center text-center">
+        <div className='tabla'>
         {loading ?
           <Loading /> : <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: 440 }}>
@@ -173,6 +175,7 @@ function AdminDashboard() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </Paper>}
+          </div>
       </div>
       <footer>
 
